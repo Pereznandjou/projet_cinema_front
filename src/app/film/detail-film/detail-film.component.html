@@ -1,0 +1,48 @@
+<p>detail-film works!</p>
+<div *ngIf="film" class="row">
+    <div class="col s12 m8 offset-m2">
+        <h2 class="header center">{{ film.nom }}</h2>
+        <div class="card horizontal hoverable">
+            <div class="card-image">
+                <img [src]="film.imageUrl">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <table class="bordered striped">
+                        <tbody>
+                            <tr>
+                                <td>Nom</td>
+                                <td><strong>{{ film.nom }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td>resume</td>
+                                <td><strong>{{ film.resume }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Durée</td>
+                                <td><strong>{{ film.duree }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Categorie</td>
+                                <td>
+                                    <span *ngFor="let categories of film.categorie" class="{{ categories | filmTypeColor }}">{{
+                                        categories }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Date de création</td>
+                                <td><em>{{ film.createdAt | date:"dd/MM/yyyy" }}</em></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-action">
+                    <a (click)="goToFilmList()">Retour</a>
+                    <a (click)="goToEditFilm(film)">Editer</a>
+                    <a (click)="deleteFilm(film)">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h4 *ngIf='!film' class="center"></h4>

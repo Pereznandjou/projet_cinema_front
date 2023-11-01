@@ -1,0 +1,111 @@
+<p>film-form works!</p>
+<form *ngIf="film" (ngSubmit)="onSubmit()" #filmForm="ngForm" novalidate>
+    <div class="row">
+        <div class="col s8 offset-s2">
+            <div class="card-panel">
+
+                <!-- Film Picture -->
+                <div *ngIf="isAddForm" class="form-group">
+                    <label for="picture">Image</label>
+                    <input type="file" class="form-control" id="picture" accept="image/*"
+                        (change)="onFileSelected($event)" name="picture">
+
+                    <div *ngIf="!fileSelected" class="card-panel red accent-1">
+                        L'image du film est requise.
+                    </div>
+                </div>
+
+
+                <!-- Film nom -->
+                <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" class="form-control" id="nom" required pattern="^[a-zA-Z0-9àéèç ]{1,25}$"
+                        [(ngModel)]="film.nom" name="nom" #nom="ngModel">
+
+                    <div [hidden]="nom.valid || nom.pristine" class="card-panel red accent-1">
+                        Le nom du Film est requis (1-25).
+                    </div>
+                </div>
+
+                <!-- Film resumé -->
+                <div class="form-group">
+                    <label for="resume">Resumé</label>
+                    <input type="text" class="form-control" id="resume" required pattern="^[a-zA-Z0-9àéèç ]{1,200}$"
+                        [(ngModel)]="film.resume" name="resume" #resume="ngModel">
+
+                    <div [hidden]="resume.valid || resume.pristine" class="card-panel red accent-1">
+                        Le resumé du Film est requis (1-200).
+                    </div>
+                </div>
+
+                <!-- Film categorie -->
+                <form class="form-group">
+                    <label for="categorie">Categorie</label>
+                    <p *ngFor="let categories of categorie">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="{{ categories }}" [value]="categories"
+                                [checked]="hasType(categories)" [disabled]="!isTypesValid(categories)"
+                                (change)="selectType($event, categories)" />
+                            <span [attr.for]="categories">
+                                <div class="{{ categories | filmTypeColor }}">
+                                    {{ categories }}
+                                </div>
+                            </span>
+                        </label>
+                    </p>
+                </form>
+
+
+
+                <!-- Film Durée -->
+                <div class="form-group">
+                    <label for="duree">Durée</label>
+                    <input type="text" class="form-control" id="duree" required [(ngModel)]="film.duree" name="duree"
+                        #duree="ngModel">
+
+                    <div *ngIf="durationError" class="card-panel red accent-1">
+                        {{ durationError }}
+                    </div>
+                </div>
+
+
+
+
+                <!-- Film realisateur -->
+                <div class="form-group">
+                    <label for="realisateur"> TestRealisateur</label>
+                    <input type="text" class="form-control" id="realisateur" required pattern="^[a-zA-Z0-9àéèç ]{1,25}$"
+                        [(ngModel)]="film.realisateur" name="realisateur" #realisateur="ngModel">
+
+                    <div [hidden]="realisateur.valid || realisateur.pristine" class="card-panel red accent-1">
+                        Le realisateur du Film est requis (1-25).
+                    </div>
+                </div>
+                <!-- Film acteur_principal -->
+                <div class="form-group">
+                    <label for="acteur_principal">Acteur Principal</label>
+                    <input type="text" class="form-control" id="acteur_principal" required
+                        pattern="^[a-zA-Z0-9àéèç ]{1,25}$" [(ngModel)]="film.acteur_principal" name="acteur_principal"
+                        #acteur_principal="ngModel">
+
+                    <div [hidden]="acteur_principal.valid || acteur_principal.pristine" class="card-panel red accent-1">
+                        L'acteur principal du Film est requis (1-25).
+                    </div>
+                </div>
+
+
+
+
+
+                <!-- Submit button -->
+                <div class="divider"></div>
+                <div class="section center">
+                    <button type="submit" class="waves-effect waves-light btn" [disabled]="!filmForm.form.valid">
+                        Valider</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<h3 *ngIf="!film" class="center"></h3>
